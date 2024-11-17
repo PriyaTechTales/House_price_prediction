@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+{% block title %} signup {% endblock title %}
+
+{% block body %}
+<style>
+    /* Sign Up Section */
+    .signup-container {
+        width: 100%;
+        height: 100vh;
+        background-image: url('static/images/login.avif');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+    }
+    .auth-buttons a {
+        background-color: #ffc107;
+        color: #343a40;
+        padding: 10px 20px;
+        text-decoration: none;
+        border-radius: 30px;
+        margin-left: 10px;
+        transition: all 0.3s ease;
+    }
+
+    .signup-container::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+    }
+
+    .signup-box {
+        position: relative;
+        z-index: 1;
+        background-color: rgba(255, 255, 255, 0.9);
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        max-width: 400px; /* Match login box width */
+        width: 100%;
+    }
+
+    .signup-box h2 {
+        color: #333;
+        margin-bottom: 20px;
+        font-size: 2em;
+    }
+
+    .signup-box input {
+        width: 100%;
+        padding: 15px;
+        margin: 10px 0;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+
+    .signup-box button {
+        padding: 15px 30px;
+        background-color: #ffc107;
+        color: #343a40;
+        border: none;
+        border-radius: 25px;
+        font-size: 18px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .signup-box button:hover {
+        background-color: #f8b700;
+    }
+
+</style>
+<!-- Sign Up Section -->
+<section class="signup-container">
+    <div class="signup-box">
+        <h2>Sign Up</h2>
+        <form id="signupForm" method="POST">
+            {% csrf_token %}
+            <input type="text" id="fullname" placeholder="Full Name" required>
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <input type="password" id="confirmpassword" placeholder="Confirm Password" required>
+            <button type="submit">Sign Up</button>
+            <div>
+                {% if messages %}
+                    {% for message in messages %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </form>
+    </div>
+</section>
+<script>
+    // Simple JavaScript to handle form submission and redirection to home page
+    document.getElementById("signupForm").addEventListener("submit", function(event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        // Get the values from the form fields
+        const fullname = document.getElementById("fullname").value;
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        const confirmpassword = document.getElementById("confirmpassword").value;
+
+        // Basic validation for full name (first letter should be capital)
+        const namePattern = /^[A-Z][a-zA-Z\s]*$/;
+        if (!namePattern.test(fullname)) {
+            alert("Full name should start with a capital letter.");
+            return;
+        }
+
+        // Password validation: minimum 8 characters, including lowercase, uppercase, special characters, and numbers
+        const passwordPattern = /^(?=.[a-z])(?=.[A-Z])(?=.\d)(?=.[@$!%?&])[A-Za-z\d@$!%?&]{8,}$/;
+        if (!passwordPattern.test(password)) {
+            alert("Password must be at least 8 characters long and include lowercase letters, uppercase letters, numbers, and special characters.");
+            return;
+        }
+
+        // Check if passwords match
+        if (password !== confirmpassword) {
+            alert("Passwords do not match!");
+            return;
+        }
+
+        // Redirect to home page after successful sign up
+        window.location.href = "/";
+    });
+</script>
+{% endblock body %}

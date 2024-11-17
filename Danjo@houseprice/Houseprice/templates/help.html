@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% block title %} help {% endblock title %}
+
+{% block body %}
+<style>
+    /* Help Section */
+    .help-hero {
+        width: 100%;
+        height: 100vh;
+        background-image: url('static/images/help.jpg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        position: relative;
+    }
+
+    .help-hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+    }
+
+    .help-content {
+        position: relative;
+        z-index: 1;
+        text-align: center;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #fff;
+    }
+
+    .help-content h1 {
+        font-size: 3.5em;
+        margin-bottom: 20px;
+        color: #ffc107;
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+    }
+
+    .help-content p {
+        font-size: 1.2em;
+        margin-bottom: 40px;
+        text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+    }
+
+    .faq-section {
+        max-width: 800px;
+        margin: 0 auto;
+        background: rgba(1000, 299, 235, 0.3);
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .faq-section h2 {
+        font-size: 2em;
+        color: #ffc107;
+        margin-bottom: 15px;
+    }
+
+    .faq-section p {
+        font-size: 1.2em;
+        color: black;
+        margin-bottom: 10px;
+    }
+
+</style>
+<!-- Help Section -->
+<section class="help-hero">
+    <div class="help-content">
+        <h1>Help Center</h1>
+        <p>We’re here to assist you with any questions</p>
+        <div class="faq-section">
+            <h2>Frequently Asked Questions</h2>
+            <p><strong>Q1:</strong> How do I get started?</p>
+            <p><strong>Answer:</strong> Simply sign up and browse through our listings to find your ideal property.</p>
+
+            <p><strong>Q2:</strong> How can I contact support?</p>
+            <p><strong>Answer:</strong> You can reach out through the "Contact Us" page for assistance.</p>
+
+            <p><strong>Q3:</strong> What is HouseTrendZ?</p>
+            <p><strong>Answer:</strong> HouseTrendZ is a platform to explore house prices across India with detailed insights.</p>
+        </div>
+    </div>
+</section>
+
+{% endblock body %}

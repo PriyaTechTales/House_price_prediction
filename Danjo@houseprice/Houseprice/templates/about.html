@@ -1,0 +1,514 @@
+{% extends 'base.html' %}
+{% block title %} about {% endblock title %}
+
+{% block body %}
+<style>
+    /* Main Section */
+    .hero {
+        width: 100%;
+        height: 100vh;
+        background-image: url('/static/images/price house.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6); /* Darker overlay */
+        z-index: 1;
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        color: #ffc107;
+        padding: 20px;
+    }
+
+    .hero-content h1 {
+        font-size: 3.5em; /* Increased font size to make it prominent */
+        font-weight: bold;
+        margin-bottom: 5px; /* Reduced margin for closer alignment */
+        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+    }
+
+    .hero-content p {
+        font-size: 1.5em; /* Adjusted to make it larger but not as prominent as h1 */
+        margin-bottom: 25px; /* Added space below for better readability */
+        text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.5);
+        color: #fff;
+    }
+
+    /* Dropdown Button Adjustments */
+    .hero-content .dropdown-button {
+        font-size: 1.2em; /* Slightly larger for visibility */
+        padding: 10px 30px; /* Adjusted padding for a substantial button */
+        border-radius: 8px;
+        background-color: #ffc107;
+        color: #000;
+        border: none;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+
+    .hero-content .dropdown-button:hover {
+        background-color: #e0a800;
+    }
+
+    /* Dropdown */
+    .dropdown-container {
+        text-align: center;
+        margin-top: 50px;
+    }
+
+    select {
+        padding: 15px;
+        font-size: 18px;
+        border: none;
+        border-radius: 25px;
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        background-color: #ffc107;
+        color: #343a40;
+        outline: none;
+        transition: background-color 0.3s ease;
+    }
+
+    select:hover {
+        background-color: #f8b700;
+        cursor: pointer;
+    }
+
+    .input-container {
+        display: none;
+        margin-top: 30px;
+        text-align: center;
+    }
+
+    .input-container input {
+        display: block;
+        margin: 10px auto;
+        padding: 10px;
+        font-size: 16px;
+        border: 2px solid #ffc107;
+        border-radius: 5px;
+        width: 250px;
+        outline: none;
+    }
+
+    .predict-btn {
+        display: none;
+        margin-top: 20px;
+        padding: 10px 20px;
+        font-size: 18px;
+        background-color: #ffc107;
+        color: #343a40;
+        border: none;
+        border-radius: 25px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .predict-btn:hover {
+        background-color: #f8b700;
+    }
+
+    /* Style for the predicted price section */
+    .predicted-price {
+        margin-top: 20px;
+        font-size: 24px;
+        font-weight: bold;
+        color: #ffc107;
+        text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+    }
+    /* Basic Reset */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f4f8; /* Light, neutral background */
+        color: #333333; /* Dark gray text */
+    }
+
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+        background-color: #ffffff; /* White background for header */
+        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .navbar h1 {
+        color: #3b5998; /* Light blue for brand name */
+        font-size: 28px;
+    }
+
+    .navbar nav a {
+        margin: 0 15px;
+        color: #3b5998;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .auth-buttons .login, .auth-buttons .signup {
+        background-color: #ffcc80; /* Light orange for buttons */
+        border: none;
+        color: white;
+        padding: 8px 16px;
+        cursor: pointer;
+        border-radius: 5px;
+        font-weight: bold;
+    }
+
+    .prediction-section {
+        max-width: 600px;
+        margin: 50px auto;
+        background: #ffffff;
+        padding: 30px;
+        border-radius: 10px;
+        text-align: center;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .prediction-section h2 {
+        font-size: 28px;
+        color: #3b5998;
+        margin-bottom: 8px;
+    }
+
+    .prediction-form {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-top: 20px;
+    }
+
+    .prediction-form select, .prediction-form input, .prediction-form button {
+        padding: 10px;
+        font-size: 16px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        outline: none;
+        transition: all 0.2s ease;
+    }
+
+    .prediction-form select {
+        background-color: #ffebcd; /* Light beige */
+        color: #333;
+    }
+
+    .prediction-form input {
+        background-color: #f5f5f5; /* Light gray */
+        color: #333;
+    }
+
+    .prediction-form button {
+        background-color: #3b5998; /* Blue button */
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .prediction-form button:hover {
+        background-color: #324f82; /* Darker blue on hover */
+        box-shadow: 0px 4px 8px rgba(59, 89, 152, 0.2);
+    }
+
+    .result-card {
+        margin-top: 30px;
+        background-color: #fafafa; /* Very light gray */
+        color: #333;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .result-card h3 {
+        font-size: 24px;
+        color: #3b5998;
+        margin-bottom: 12px;
+    }
+
+    .input-details {
+        margin-top: 15px;
+        background-color: #e8f0fe; /* Light blue-gray */
+        padding: 15px;
+        border-radius: 8px;
+        border: 1px solid #d0e0f0; /* Soft border color */
+    }
+
+    .input-details h4 {
+        margin-bottom: 8px;
+        color: #444;
+        font-size: 18px;
+    }
+
+    .input-details p {
+        margin-bottom: 5px;
+        color: #555;
+        font-size: 16px;
+    }
+
+</style>
+
+<section class="hero">
+
+    <!-- Form -->
+    <form action="/about" method="POST" onsubmit="return validateForm();">
+        {% csrf_token %}
+        <div class="hero-content">
+            <h1>House Price Prediction</h1>
+            <p>Explore property prices across various city in India</p>
+
+            <!-- City Dropdown -->
+            <div class="dropdown-container">
+                <select id="city-dropdown" name="city-dropdown">
+                    <option value="">Select a City</option>
+                    <option value="Bangalore">Bangalore</option>
+                    <option value="Delhi">Delhi</option>
+                    <option value="Pune">Pune</option>
+                </select>
+            </div>
+
+            <!-- Location Dropdown for Bangalore -->
+            <div class="dropdown-container" id="bangalore-location" style="display: none;">
+                <select id="location-dropdown-bangalore" name="location-dropdown-bangalore">
+                    <option value="">Select a Location</option>
+                    <option value="Whitefield">Whitefield</option>
+                    <option value="Sarjapur Road">Sarjapur Road</option>
+                    <option value="Electronic City">Electronic City</option>
+                    <option value="Raja Rajeshwari Nagar">Raja Rajeshwari Nagar</option>
+                    <option value="Vishwapriya Layout">Vishwapriya Layout</option>
+                    <option value="HAL 2nd Stage">HAL 2nd Stage</option>
+                    <option value="Thyagaraja Nagar">Thyagaraja Nagar</option>
+                    <option value="Banjara Layout">Banjara Layout</option>
+                    <option value="Marsur">Marsur</option>
+                </select>
+            </div>
+
+            <!-- Location Dropdown for Delhi -->
+            <div class="dropdown-container" id="delhi-location" style="display: none;">
+                <select id="location-dropdown-delhi" name="location-dropdown-delhi">
+                    <option value="">Select a Location</option>
+                    <option value="other">Other</option>
+                    <option value="J R Designers Floors, Rohini Sector 24">J R Designers Floors, Rohini Sector 24</option>
+                    <option value="Lajpat Nagar 2">Lajpat Nagar 2</option>
+                    <option value="Lajpat Nagar 3">Lajpat Nagar 3</option>
+                    <option value="The Amaryllis, Karol Bagh">The Amaryllis, Karol Bagh</option>
+                    <option value="New Friends Colony">New Friends Colony</option>
+                    <option value="Kailash Colony, Greater Kailash">Kailash Colony, Greater Kailash</option>
+                    <option value="Yamuna Vihar, Shahdara">Yamuna Vihar, Shahdara</option>
+                    <option value="Laxmi Nagar">Laxmi Nagar</option>
+                    <option value="Patel Nagar West">Patel Nagar West</option>
+                </select>
+            </div>
+
+            <!-- Location Dropdown for Pune -->
+            <div class="dropdown-container" id="pune-location" style="display: none;">
+                <select id="location-dropdown-pune" name="location-dropdown-pune">
+                    <option value="">Select a Location</option>
+                    <option value="Alandi Road">Alandi Road</option>
+                    <option value="Ambegaon Budruk">Ambegaon Budruk</option>
+                    <option value="Anandnagar">Anandnagar</option>
+                    <option value="Aundh">Aundh</option>
+                    <option value="Aundh Road">Aundh Road</option>
+                    <option value="Balaji Nagar">Balaji Nagar</option>
+                    <option value="Baner">Baner</option>
+                    <option value="Baner Road">Baner Road</option>
+                    <option value="Bhandarkar Road">Bhandarkar Road</option>
+                    <option value="Bhavani Peth">Bhavani Peth</option>
+                    <option value="Bibvewadi">Bibvewadi</option>
+                    <option value="Bopodi">Bopodi</option>
+                    <option value="Budhwar Peth">Budhwar Peth</option>
+                    <option value="Bund Garden Road">Bund Garden Road</option>
+                    <option value="Camp">Camp</option>
+                    <option value="Chandan Nagar">Chandan Nagar</option>
+                    <option value="Dapodi">Dapodi</option>
+                    <option value="Deccan Gymkhana">Deccan Gymkhana</option>
+                    <option value="Dehu Road">Dehu Road</option>
+                    <option value="Dhankawadi">Dhankawadi</option>
+                    <option value="Dhayari Phata">Dhayari Phata</option>
+                    <option value="Dhole Patil Road">Dhole Patil Road</option>
+                    <option value="Erandwane">Erandwane</option>
+                    <option value="Fatima Nagar">Fatima Nagar</option>
+                    <option value="Fergusson College Road">Fergusson College Road</option>
+                    <option value="Ganesh Peth">Ganesh Peth</option>
+                    <option value="Ganeshkhind">Ganeshkhind</option>
+                    <option value="Ghorpade Peth">Ghorpade Peth</option>
+                    <option value="other">Other</option>
+                    <option value="Gokhale Nagar">Gokhale Nagar</option>
+                    <option value="Gultekdi">Gultekdi</option>
+                    <option value="Guruwar Peth">Guruwar Peth</option>
+                    <option value="Hadapsar">Hadapsar</option>
+                    <option value="Hadapsar Industrial Estate">Hadapsar Industrial Estate</option>
+                    <option value="Hingne Khurd">Hingne Khurd</option>
+                    <option value="Jangali Maharaj Road">Jangali Maharaj Road</option>
+                    <option value="Kalyani Nagar">Kalyani Nagar</option>
+                    <option value="Karve Nagar">Karve Nagar</option>
+                    <option value="Karve Road">Karve Road</option>
+                    <option value="Kasba Peth">Kasba Peth</option>
+                    <option value="Katraj">Katraj</option>
+                    <option value="Khadaki">Khadaki</option>
+                    <option value="Khadki">Khadki</option>
+                    <option value="Kharadi">Kharadi</option>
+                    <option value="Kondhwa">Kondhwa</option>
+                    <option value="Kondhwa Budruk">Kondhwa Budruk</option>
+                    <option value="Kondhwa Khurd">Kondhwa Khurd</option>
+                    <option value="Koregaon Park">Koregaon Park</option>
+                    <option value="Kothrud">Kothrud</option>
+                    <option value="Law College Road">Law College Road</option>
+                    <option value="Laxmi Road">Laxmi Road</option>
+                    <option value="Lulla Nagar">Lulla Nagar</option>
+                    <option value="Mahatma Gandhi Road">Mahatma Gandhi Road</option>
+                    <option value="Mangalwar Peth">Mangalwar Peth</option>
+                    <option value="Manik Bagh">Manik Bagh</option>
+                    <option value="Market Yard">Market Yard</option>
+                    <option value="Model Colony">Model Colony</option>
+                    <option value="Mukund Nagar">Mukund Nagar</option>
+                    <option value="Mundhawa">Mundhawa</option>
+                    <option value="Nagar Road">Nagar Road</option>
+                    <option value="Nana Peth">Nana Peth</option>
+                    <option value="Narayan Peth">Narayan Peth</option>
+                    <option value="Narayangaon">Narayangaon</option>
+                    <option value="Navi Peth">Navi Peth</option>
+                    <option value="Padmavati">Padmavati</option>
+                    <option value="Parvati Darshan">Parvati Darshan</option>
+                    <option value="Pashan">Pashan</option>
+                    <option value="Paud Road">Paud Road</option>
+                    <option value="Pirangut">Pirangut</option>
+                    <option value="Prabhat Road">Prabhat Road</option>
+                    <option value="Pune Railway Station">Pune Railway Station</option>
+                    <option value="Rasta Peth">Rasta Peth</option>
+                    <option value="Raviwar Peth">Raviwar Peth</option>
+                    <option value="Sadashiv Peth">Sadashiv Peth</option>
+                    <option value="Sahakar Nagar">Sahakar Nagar</option>
+                    <option value="Salunke Vihar">Salunke Vihar</option>
+                    <option value="Sasson Road">Sasson Road</option>
+                    <option value="Satara Road">Satara Road</option>
+                    <option value="Senapati Bapat Road">Senapati Bapat Road</option>
+                    <option value="Shaniwar Peth">Shaniwar Peth</option>
+                    <option value="Shivaji Nagar">Shivaji Nagar</option>
+                    <option value="Shukrawar Peth">Shukrawar Peth</option>
+                    <option value="Sinhagad Road">Sinhagad Road</option>
+                    <option value="Somwar Peth">Somwar Peth</option>
+                    <option value="Swargate">Swargate</option>
+                    <option value="Tilak Road">Tilak Road</option>
+                    <option value="Uruli Devachi">Uruli Devachi</option>
+                    <option value="Vadgaon Budruk">Vadgaon Budruk</option>
+                    <option value="Wadgaon Sheri">Wadgaon Sheri</option>
+                    <option value="Viman Nagar">Viman Nagar</option>
+                    <option value="Vishrant Wadi">Vishrant Wadi</option>
+                    <option value="Wagholi">Wagholi</option>
+                    <option value="Wakadewadi">Wakadewadi</option>
+                    <option value="Wanowrie">Wanowrie</option>
+                    <option value="Warje">Warje</option>
+                    <option value="Yerawada">Yerawada</option>
+                    <option value="Ghorpadi">Ghorpadi</option>
+                </select>
+            </div>
+
+
+
+            <!-- Input Fields for BHK, Bathroom, and Square Feet -->
+            <div class="input-container" id="input-container" style="display: none;">
+                <input type="number" id="bhk" name="bhk" placeholder="Enter BHK" min="1" max="18" step="1">
+                <input type="number" id="bathroom" name="bathroom" placeholder="Enter Bathroom" min="1" max="18" step="1">
+                <input type="number" id="sqft" name="sqft" placeholder="Enter Total Square Feet" min="400">
+            </div>
+
+            <!-- Error Message -->
+            <div id="error-message" style="color: red; display: none;">Please fill in all the details.</div>
+
+            <!-- Predict Button -->
+            <button type="submit" class="predict-btn" id="predict-btn" style="display: none;">Predict Price</button>
+
+        </div>
+    </form>
+    {% if output %}
+            <div class="result-card">
+                <h3>{{ output }}</h3>
+                <div class="input-details">
+                    <h4>Your Input:</h4>
+                    <p><strong>City:</strong> {{ input_data.city }}</p>
+                    <p><strong>Location:</strong> {{ input_data.location }}</p>
+                    <p><strong>BHK:</strong> {{ input_data.bhk }}</p>
+                    <p><strong>Bathrooms:</strong> {{ input_data.bathroom }}</p>
+                    <p><strong>Square Feet:</strong> {{ input_data.sqft }}</p>
+                </div>
+            </div>
+    {% endif %}
+</section>
+
+
+<script>
+    const cityDropdown = document.getElementById("city-dropdown");
+    const bangaloreLocation = document.getElementById("bangalore-location");
+    const delhiLocation = document.getElementById("delhi-location");
+    const puneLocation = document.getElementById("pune-location");
+    const inputContainer = document.getElementById("input-container");
+    const predictBtn = document.getElementById("predict-btn");
+    const predictedPrice = document.getElementById("predicted-price");
+    const errorMessage = document.getElementById("error-message");
+
+    cityDropdown.addEventListener("change", function() {
+        bangaloreLocation.style.display = cityDropdown.value === "Bangalore" ? "block" : "none";
+        delhiLocation.style.display = cityDropdown.value === "Delhi" ? "block" : "none";
+        puneLocation.style.display = cityDropdown.value === "Pune" ? "block" : "none";
+
+        // Clear previous location selections
+        document.querySelectorAll("#bangalore-location select, #delhi-location select, #pune-location select").forEach(select => {
+            select.value = "";
+        });
+
+        inputContainer.style.display = cityDropdown.value ? "block" : "none";
+        predictBtn.style.display = cityDropdown.value ? "inline-block" : "none";
+
+        // Clear the predicted price and error messages when a new city is selected
+        predictedPrice.innerHTML = "";
+        errorMessage.style.display = "none";
+    });
+
+    function validateForm() {
+        // Hide previous error message
+        errorMessage.style.display = "none";
+        predictedPrice.innerHTML = ""; // Clear previous prediction
+
+        const city = cityDropdown.value;
+        let location = "";
+        if (city === "Bangalore") {
+            location = document.getElementById("location-dropdown-bangalore").value;
+        } else if (city === "Delhi") {
+            location = document.getElementById("location-dropdown-delhi").value;
+        } else if (city === "Pune") {
+            location = document.getElementById("location-dropdown-pune").value;
+        }
+
+        const bhk = document.getElementById("bhk").value;
+        const bathroom = document.getElementById("bathroom").value;
+        const sqft = document.getElementById("sqft").value;
+
+        if (!city || !location || !bhk || !bathroom || !sqft) {
+            errorMessage.style.display = "block";
+            return false;
+        }
+
+        return true;
+    }
+</script>
+
+{% endblock body %}

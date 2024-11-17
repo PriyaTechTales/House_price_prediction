@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock title %} |House Price Prediction</title>
+</head>
+<body>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            font-family: 'Arial', sans-serif;
+            height: 100%;
+            width: 100%;
+            overflow-x: hidden;
+        }
+
+        /* Navbar */
+        nav {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            background: rgba(0, 0, 50, 0.7);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            transition: background 0.3s ease-in-out;
+        }
+
+        .logo {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #ffc107;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links li {
+            margin: 0 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 18px;
+            padding: 8px 12px;
+            transition: background-color 0.3s, color 0.3s ease;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between; /* Icons on the right side */
+            align-items: center;
+        }
+
+        .nav-links a img {
+            width: 20px;
+            height: 20px;
+            margin-left: 8px; /* Shift image to the right */
+        }
+
+        .nav-links a:hover {
+            background-color: #ffc107;
+            color: #333;
+        }
+
+        .auth-buttons a {
+            background-color: #ffc107;
+            color: #343a40;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 30px;
+            margin-left: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .auth-buttons a:hover {
+            background-color: #f8b700;
+            color: #fff;
+        }
+
+        
+
+        /* Footer */
+        footer {
+            background-color: #001f3f;
+            color: #ffffff;
+            text-align: center;
+            padding: 30px 0;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        /* Scroll Animation */
+        @keyframes slideIn {
+            from {
+                transform: translateX(-150%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .btn {
+            animation: slideIn 1.8s ease-in-out forwards;
+        }
+
+        .btn:nth-child(1) {
+            animation-delay: 0.6s;
+        }
+
+        .btn:nth-child(2) {
+            animation-delay: 1s;
+        }
+
+        .btn:nth-child(3) {
+            animation-delay: 1.4s;
+        }
+
+        /* Responsive typography and layout */
+        @media (max-width: 1024px) {
+            .nav-links a {
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links a {
+                font-size: 14px;
+            }
+        }
+    </style>
+    <header>
+        <nav>
+            <div class="logo">HomeTrendZ</div>
+            <ul class="nav-links">
+                <li><a href="/">Home<img src="static/images/home.png" alt="Home Icon"></a></li>
+                <li><a href="/contact">Contact Us<img src="static/images/contact.jpg" alt="Contact Icon"></a></li>
+                <li><a href="/help">Help<img src="static/images/help.png" alt="Help Icon"></a></li>
+            </ul>
+            <div class="auth-buttons">
+                <a href="/login" class="login-btn">Login</a>
+                <a href="/signup" class="signup-btn">Sign Up</a>
+            </div>
+        </nav>
+        {% block body %}{% endblock body%}
+    </header>
+
+    <footer>
+        <p>&copy; 2024 House Prediction. All Rights Reserved.</p>
+    </footer>
+
+</body>
+</html>

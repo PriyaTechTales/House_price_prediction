@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% block title %} login {% endblock title %}
+
+{% block body %}
+<style>
+   /* log in Section */
+   .login-container {
+    width: 100%;
+    height: 100vh;
+    background-image: url('static/images/login.avif');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+.login-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.login-box {
+    position: relative;
+    z-index: 1;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    max-width: 400px; /* Match login box width */
+    width: 100%;
+}
+
+.login-box h2 {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 2em;
+}
+
+.login-box input {
+    width: 100%;
+    padding: 15px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.login-box button {
+    padding: 15px 30px;
+    background-color: #ffc107;
+    color: #343a40;
+    border: none;
+    border-radius: 25px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.login-box button:hover {
+    background-color: #f8b700;
+}
+</style>
+<!-- Login Section -->
+<section class="login-container">
+    <div class="login-box">
+        <h2>Login</h2>
+        <form id="loginForm" action="" method="POST">
+            {% csrf_token %}
+            <input type="text" id="username" placeholder="Enter Name" required>
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+</section>
+
+{% endblock body %}
