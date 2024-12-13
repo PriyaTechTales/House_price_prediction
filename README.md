@@ -26,27 +26,44 @@ Visual aids help users understand the factors influencing the prediction.
 
 # Technology Stack
 Frontend: HTML, CSS, JavaScript
+
 Backend: Django
+
 Database: SQLite
+
 Machine Learning: Linear, Lasso and Ridge Regression
+
 
 # Requirements for the Project
 Django Framework Version: 4.x or higher
+
 Reason: Leverages modern Django features like class-based views and enhanced ORM capabilities.
+
 Python Version: 3.10 or higher
+
 Reason: Ensures compatibility with advanced libraries and features.
 
 # Libraries
 NumPy: >=1.21.0
+
 For numerical operations in regression models.
+
 pandas: >=1.3.0
+
 For data manipulation and preprocessing.
+
 scikit-learn: >=1.0.0
+
 For implementing Lasso and Ridge regression models.
+
 joblib: >=1.2.0
+
 For saving and loading serialized models.
+
 Deployment Requirements
+
 Gunicorn: >=20.0.0
+
 WhiteNoise: >=5.3.0 (for serving static files in production).
 
 # Steps or Commands to Run the Project
