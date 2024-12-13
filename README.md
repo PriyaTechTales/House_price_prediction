@@ -8,7 +8,9 @@ Machine Learning Model: Lasso and Ridge regression models are employed for featu
 
 User-Friendly Interface
 Frontend: Built with HTML, CSS, and JavaScript to deliver an interactive and responsive user experience.
+
 Backend: Developed using Django for robust server-side logic and secure data handling.
+
 SQLite Database: Efficiently stores user inputs and model outputs, seamlessly integrating with the web application.
 
 Multi-City Support: Allows users to select a specific city, ensuring that the predictions are tailored to the selected location's housing market dynamics.
