@@ -68,12 +68,21 @@ WhiteNoise: >=5.3.0 (for serving static files in production).
 
 # Steps or Commands to Run the Project
 1.Download the project zip file and extract it.
+
 2.Open the extracted folder in VSCode.
+
 3.Open the terminal in VSCode.
+
 4.Navigate to the project directory by running:bash
+
 5.Copy code
-6.cd house_price_prediction  
+
+6.cd house_price_prediction
+
 7.Start the Django development server by running:bash
+
 8.Copy code
+
 9.python manage.py runserver  
+
 10.Open the provided URL in a browser to access the application.
