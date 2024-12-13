@@ -79,7 +79,7 @@ WhiteNoise: >=5.3.0 (for serving static files in production).
 
 6.cd house_price_prediction
 
-7.Start the Django development server by running:bash
+7.Start the Django development server by running: bash
 
 8.Copy code
 
