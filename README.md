@@ -31,8 +31,6 @@ Frontend: HTML, CSS, JavaScript
 
 Backend: Django
 
-Database: SQLite
-
 Machine Learning: Linear, Lasso and Ridge Regression
 
 
